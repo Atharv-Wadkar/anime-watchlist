@@ -220,3 +220,27 @@ function syncAnimeList() {
   fetchAnimeList();
   document.getElementById("genre-heading").textContent = "Synced with MAL";
 }
+
+
+fetch("https://anime-watchlist-2g18.onrender.com/animelist")
+  .then(response => response.json())
+  .then(data => {
+    const animeList = document.getElementById("anime-list");
+    animeList.innerHTML = "";
+
+    data.data.forEach((anime, index) => {
+      const animeCard = document.createElement("div");
+      animeCard.classList.add("anime-card");
+
+      // Use English title if available, otherwise fallback
+      const title = anime.node.alternative_titles?.en || anime.node.title;
+
+      animeCard.innerHTML = `
+        <h3>${index + 1}. ${title}</h3>
+        <img src="${anime.node.main_picture?.medium}" alt="${title}">
+      `;
+
+      animeList.appendChild(animeCard);
+    });
+  })
+  .catch(error => console.error("Error fetching anime list:", error));
