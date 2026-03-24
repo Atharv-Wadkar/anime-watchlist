@@ -43,9 +43,6 @@ function displayAnime(list) {
 
   sorted.forEach((item, index) => {
     const li = document.createElement("li");
-    li.style.opacity = "0";
-    li.style.transform = "translateY(20px)";
-    li.style.transition = "all 0.4s ease";
 
     const img = document.createElement("img");
     img.src = item.node.main_picture?.medium || "";
@@ -102,33 +99,38 @@ function displayAnime(list) {
 
     // Fade-in animation staggered
     setTimeout(() => {
-      li.style.opacity = "1";
-      li.style.transform = "translateY(0)";
+      li.classList.add("show");
     }, index * 100);
   });
 }
 
+// Animate genre heading
+function updateHeading(text) {
+  const heading = document.getElementById("genre-heading");
+  heading.classList.remove("show");
+  heading.textContent = text;
+  setTimeout(() => heading.classList.add("show"), 50);
+}
+
 function filterAnime(genre) {
-  let heading = document.getElementById("genre-heading");
   if (genre === "All") {
     displayAnime(allAnime);
-    heading.textContent = "";
+    updateHeading("");
   } else if (genre === "Alphabetical") {
     const sorted = [...allAnime].sort((a, b) => a.node.title.localeCompare(b.node.title));
     displayAnime(sorted);
-    heading.textContent = "Alphabetical Animes";
+    updateHeading("Alphabetical Animes");
   } else if (genre === "Favorites") {
     const favList = allAnime.filter(item => favorites.has(item.node.id));
     displayAnime(favList);
-    heading.textContent = "Favorite Animes";
+    updateHeading("Favorite Animes");
   } else {
     const filtered = allAnime.filter(item =>
       item.node.genres?.some(g => g.name === genre)
     );
     displayAnime(filtered);
-    heading.textContent = `${genre} Animes`;
+    updateHeading(`${genre} Animes`);
   }
-  // Auto-close panel
   document.getElementById("filter-panel").classList.remove("active");
   document.body.classList.remove("filter-open");
 }
@@ -139,7 +141,7 @@ function searchAnime() {
     (item.node.alternative_titles?.en || item.node.title).toLowerCase().includes(query)
   );
   displayAnime(filtered);
-  document.getElementById("genre-heading").textContent = `Search results for "${query}"`;
+  updateHeading(`Search results for "${query}"`);
 }
 
 function toggleDarkMode() {
@@ -199,27 +201,21 @@ function populateGenres(list) {
 // Extra top bar buttons
 function goHome() {
   displayAnime(allAnime);
-  document.getElementById("genre-heading").textContent = "";
+  updateHeading("");
 }
 function showPopular() {
-  const sorted = [...allAnime].sort((a, b) => {
-    const scoreA = a.node.mean || 0;
-    const scoreB = b.node.mean || 0;
-    return scoreB - scoreA;
-  });
+  const sorted = [...allAnime].sort((a, b) => (b.node.mean || 0) - (a.node.mean || 0));
   displayAnime(sorted);
-  document.getElementById("genre-heading").textContent = "Popular Animes";
+  updateHeading("Popular Animes");
 }
 function showRecent() {
-  const sorted = [...allAnime].sort((a, b) => {
-    const dateA = new Date(a.node.start_date || 0);
-    const dateB = new Date(b.node.start_date || 0);
-    return dateB - dateA;
-  });
+  const sorted = [...allAnime].sort((a, b) =>
+    new Date(b.node.start_date || 0) - new Date(a.node.start_date || 0)
+  );
   displayAnime(sorted);
-  document.getElementById("genre-heading").textContent = "Recently Added Animes";
+  updateHeading("Recently Added Animes");
 }
 function syncAnimeList() {
   fetchAnimeList();
-  document.getElementById("genre-heading").textContent = "Synced with MAL";
+  updateHeading("Synced with MAL");
 }
