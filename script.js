@@ -10,7 +10,7 @@ function hideLoading() {
 
 function fetchAnimeList() {
   showLoading();
-  fetch("http://localhost:3000/animelist")
+  fetch("https://anime-watchlist-2g18.onrender.com/animelist")
     .then(response => response.json())
     .then(data => {
       hideLoading();
