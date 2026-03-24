@@ -2,15 +2,62 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Anime Watchlist</title>
+  <title>Anime</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="favicon.png" type="image/png">
 </head>
 <body>
-  <h1>Anime Watchlist</h1>
-  <ul id="anime-list"></ul>
-  <input type="text" id="anime-input" placeholder="Add an anime...">
-  <button onclick="addAnime()">Add</button>
+  <!-- Top navigation bar -->
+  <nav id="topbar">
+    <div id="logo">
+      <img src="homepage-logo.png" alt="Anime Logo" class="banner-logo">
+    </div>
+
+    <button onclick="goHome()">Home</button>
+    <button onclick="showPopular()">Popular</button>
+    <button onclick="showRecent()">Recently Added</button>
+    <button onclick="syncAnimeList()">Sync</button>
+
+    <input type="text" id="search" placeholder="Search anime..." oninput="searchAnime()">
+
+    <!-- Filter icon button -->
+    <button id="filter-toggle" onclick="toggleFilterPanel()">☰ Filters</button>
+
+    <!-- Dark mode button -->
+    <button id="dark-toggle" onclick="toggleDarkMode()">Dark Mode</button>
+  </nav>
+
+  <!-- Genre heading -->
+  <div id="genre-heading"></div>
+
+  <!-- Floating filter panel -->
+  <div id="filter-panel">
+    <span id="close-filter" onclick="toggleFilterPanel()">&times; Close</span>
+    <h3>Genres</h3>
+    <div id="genre-buttons"></div>
+  </div>
+
+  <!-- Loading spinner -->
+  <div id="loading" style="display:none;">
+    <div class="spinner"></div>
+    <p>Loading your anime list...</p>
+  </div>
+
+  <!-- Anime list -->
+  <main>
+    <ul id="anime-list"></ul>
+  </main>
+
+  <!-- Modal -->
+  <div id="anime-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h2 id="modal-title"></h2>
+      <p id="modal-genres"></p>
+      <!-- Favorite button injected dynamically -->
+    </div>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>
