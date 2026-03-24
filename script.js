@@ -236,8 +236,9 @@ fetch("https://anime-watchlist-2g18.onrender.com/animelist")
       const title = anime.node.alternative_titles?.en || anime.node.title;
 
       animeCard.innerHTML = `
-        <h3>${index + 1}. ${title}</h3>
+        <div class="anime-number">${index + 1}</div>
         <img src="${anime.node.main_picture?.medium}" alt="${title}">
+        <h3>${title}</h3>
       `;
 
       animeList.appendChild(animeCard);
