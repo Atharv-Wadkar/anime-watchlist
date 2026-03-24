@@ -81,7 +81,7 @@ function displayAnime(list) {
       if (!favBtn) {
         favBtn = document.createElement("button");
         favBtn.id = "fav-btn";
-        modalContent.appendChild(favBtn);
+        modalContent.insertBefore(favBtn, document.getElementById("back-btn"));
       }
       favBtn.textContent = favorites.has(item.node.id) ? "★ Favorite" : "☆ Add Favorite";
       favBtn.onclick = () => {
@@ -108,15 +108,15 @@ function displayAnime(list) {
   });
 }
 
-// Filtering, search, dark mode, modal close, filter panel, genre population, top bar buttons
-// (unchanged from your v1)
-function filterAnime(genre) { /* ... */ }
-function searchAnime() { /* ... */ }
-function toggleDarkMode() { /* ... */ }
-function closeModal() { document.getElementById("anime-modal").style.display = "none"; }
-function toggleFilterPanel() { /* ... */ }
-function populateGenres(list) { /* ... */ }
-function goHome() { /* ... */ }
-function showPopular() { /* ... */ }
-function showRecent() { /* ... */ }
-function syncAnimeList() { /* ... */ }
+function filterAnime(genre) { /* unchanged */ }
+function searchAnime() { /* unchanged */ }
+function toggleDarkMode() { /* unchanged */ }
+function closeModal() {
+  document.getElementById("anime-modal").style.display = "none";
+}
+function toggleFilterPanel() { /* unchanged */ }
+function populateGenres(list) { /* unchanged */ }
+function goHome() { /* unchanged */ }
+function showPopular() { /* unchanged */ }
+function showRecent() { /* unchanged */ }
+function syncAnimeList() { /* unchanged */ }
